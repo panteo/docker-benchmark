@@ -1,0 +1,26 @@
+---
+networks:
+  docker-benchmark:
+    driver: bridge
+
+services:
+  ubuntu:
+    command: tail -F anything
+    container_name: docker-benchmark-ubuntu
+    environment:
+      - TZ=UTC
+    image: ubuntu:latest
+    networks:
+      - docker-benchmark
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - .:/app
+      - ubuntu_cached:/benchmark/cached:cached
+      - ubuntu_default:/benchmark/default:default
+      - ubuntu_delegated:/benchmark/delegated:delegated
+
+volumes:
+  ubuntu_cached: null
+  ubuntu_default: null
+  ubuntu_delegated: null
